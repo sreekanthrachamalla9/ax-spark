@@ -27,13 +27,17 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "polyfills": [
+              "@angular/localize/init"
+            ]
           },
           "configurations": {
             "production": {
@@ -87,10 +91,16 @@
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "6f4aa969-8593-40b0-8007-cb94dd3945c9"
   }
 }
