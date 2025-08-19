@@ -1,0 +1,35 @@
+<div style="min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f3f4f6; padding:20px;">
+  <div style="width:100%; max-width:400px; background:#fff; padding:30px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+
+    <h2 style="font-size:24px; font-weight:bold; text-align:center; margin-bottom:20px; color:#7D2AE8;">
+      🚀 Create Your Account
+    </h2>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" style="display:flex; flex-direction:column; gap:16px;">
+      
+      <div>
+        <label style="font-weight:600; margin-bottom:6px; display:block;">User Name</label>
+        <input type="text" formControlName="username" placeholder="Enter your full name"
+               style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:14px;">
+      </div>
+
+      <div>
+        <label style="font-weight:600; margin-bottom:6px; display:block;">Email Address</label>
+        <input type="email" formControlName="email" placeholder="Enter your email"
+               style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:14px;">
+      </div>
+
+      <div>
+        <label style="font-weight:600; margin-bottom:6px; display:block;">Password</label>
+        <input type="password" formControlName="password" placeholder="Create a password"
+               style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:14px;">
+      </div>
+
+      <button type="submit"
+              style="background-color:#7D2AE8; color:#fff; font-weight:bold; border:none;
+                     border-radius:10px; padding:12px; cursor:pointer; font-size:16px;">
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
