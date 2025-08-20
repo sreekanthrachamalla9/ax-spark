@@ -12,17 +12,104 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Add middleware to parse JSON bodies
+app.use(express.json());
+
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * API endpoints
  */
+
+// Signup endpoint
+app.post('/api/signup', (req, res) => {
+  try {
+    console.log('📝 Signup request received:', req.body);
+    
+    const { username, email, password } = req.body;
+    
+    // Basic validation
+    if (!username || !email || !password) {
+      res.status(400).json({
+        success: false,
+        message: 'Missing required fields: username, email, and password are required'
+      });
+      return;
+    }
+    
+    if (password.length < 6) {
+      res.status(400).json({
+        success: false,
+        message: 'Password must be at least 6 characters long'
+      });
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide a valid email address'
+      });
+      return;
+    }
+    
+    // Simulate successful signup (replace with actual database logic)
+    console.log('✅ User signup successful:', { username, email });
+    
+    res.status(201).json({
+      success: true,
+      message: 'Account created successfully! You can now login.',
+      user: {
+        id: Date.now(), // Temporary ID
+        username,
+        email
+      }
+    });
+    
+  } catch (error) {
+    console.error('❌ Signup error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error. Please try again later.'
+    });
+  }
+});
+
+// Login endpoint (placeholder)
+app.post('/api/login', (req, res) => {
+  try {
+    console.log('🔐 Login request received:', req.body);
+    
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      res.status(400).json({
+        success: false,
+        message: 'Email and password are required'
+      });
+      return;
+    }
+    
+    // Simulate successful login
+    res.status(200).json({
+      success: true,
+      message: 'Login successful!',
+      user: {
+        id: 1,
+        email,
+        username: 'Test User'
+      },
+      token: 'mock-jwt-token'
+    });
+    
+  } catch (error) {
+    console.error('❌ Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error. Please try again later.'
+    });
+  }
+});
 
 /**
  * Serve static files from /browser

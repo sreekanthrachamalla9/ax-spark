@@ -9,6 +9,10 @@
         "@schematics/angular:component": {
           "style": "scss",
           "type": "component"
+        },
+        "@schematics/angular:service": {
+          "skipTests": false,
+          "type": "service"
         }
       },
       "root": "",
@@ -59,13 +63,17 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "outputMode": "static"
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "ax-spark:build:production"

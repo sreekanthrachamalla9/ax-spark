@@ -1,19 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SignupService } from '../../globals/api/actions/users/api-signup.service';  // Correct service
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],  // ✅ add here
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './signup.component.html'
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   submitted = false;
+  loading = false;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private signupService: SignupService,   //  Inject correct service
+    private zone: NgZone
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -34,12 +42,24 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    // ✅ Save data into localStorage
-    localStorage.setItem('signupData', JSON.stringify(this.signupForm.value));
+    this.loading = true;
 
-    console.log('✅ Saved to LocalStorage:', this.signupForm.value);
-
-    // ✅ Navigate to login page
-    this.router.navigate(['/login']);
+    // Use the signup service method
+    this.signupService.signup(this.signupForm.value).subscribe({
+      next: (res) => {
+        console.log('✅ Signup success:', res);
+        this.loading = false;
+        this.router.navigate(['/login']);
+        // Redirect to login after success
+        // this.zone.run(() => {
+          
+        // });
+      },
+      error: (err) => {
+        console.error('❌ Signup failed:', err);
+        this.errorMessage = err?.error?.message || 'Signup failed. Please try again.';
+        this.loading = false;
+      }
+    });
   }
 }
